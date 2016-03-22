@@ -17,20 +17,22 @@ public class SongsAdapter extends RecyclerView
 
 //    private static String TAG = "SongsAdapter";
     private ArrayList<Song> mDataset;
-    private static MyClickListener myClickListener;
     private Activity mActivity;
+    private static MyClickListener myClickListener;
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         TextView songTitle;
         TextView songArtist;
         TextView songDuration;
+        TextView songInitial;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
             songTitle = (TextView) itemView.findViewById(R.id.song_title);
             songArtist = (TextView) itemView.findViewById(R.id.song_artist);
             songDuration = (TextView) itemView.findViewById(R.id.song_duration);
+            songInitial = (TextView) itemView.findViewById(R.id.song_initial);
 //            Log.i(TAG, "Adding Listener");
             itemView.setOnClickListener(this);
         }
@@ -45,9 +47,9 @@ public class SongsAdapter extends RecyclerView
         this.myClickListener = myClickListener;
     }
 
-    public SongsAdapter(ArrayList<Song> myDataset, Activity activity) {
+    public SongsAdapter(ArrayList<Song> myDataset,Activity mActivity) {
         mDataset = myDataset;
-        this.mActivity = activity;
+        this.mActivity = mActivity;
     }
 
     @Override
@@ -56,8 +58,7 @@ public class SongsAdapter extends RecyclerView
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.song_item, parent, false);
 
-        DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
-        return dataObjectHolder;
+        return new DataObjectHolder(view);
     }
 
     @Override
@@ -66,7 +67,9 @@ public class SongsAdapter extends RecyclerView
         holder.songTitle.setText(mDataset.get(position).getTitle());
         holder.songArtist.setText(mDataset.get(position).getArtist());
         holder.songDuration.setText(mDataset.get(position).getDuration());
-//        loadImage(mDataset.get(position).getStyleImageUrl(),holder);
+        holder.songInitial.setText(mDataset.get(position).getTitle().substring(0, 1));
+        float sourceTextSize = holder.songInitial.getTextSize();
+        holder.songInitial.setTextSize(sourceTextSize / mActivity.getResources().getDisplayMetrics().density);
 
     }
 

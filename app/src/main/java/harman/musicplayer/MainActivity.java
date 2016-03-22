@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +27,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements
         MediaController.MediaPlayerControl {
 
-    private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -36,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements
     private MusicService musicSrv;
     private Intent playIntent;
     private boolean musicBound=false;
+
+    private Boolean shuffle = false;
 
     private MusicController controller;
 
@@ -71,6 +71,14 @@ public class MainActivity extends AppCompatActivity implements
 
         switch (id) {
             case R.id.action_shuffle:
+                if (!shuffle) {
+                    item.setIcon(R.drawable.shuffle);
+                    shuffle = true;
+                }
+                else {
+                    item.setIcon(R.drawable.ic_shuffle_white_24dp);
+                    shuffle = false;
+                }
                 musicSrv.setShuffle();
                 break;
             case R.id.action_end:
@@ -165,16 +173,25 @@ public class MainActivity extends AppCompatActivity implements
         if(musicCursor!=null && musicCursor.moveToFirst()){
             // get columns
             int durationColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
+            int albumArtColumn = musicCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
             int titleColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE);
             int idColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media._ID);
             int artistColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.ARTIST);
             //add songs to list
             do {
                 long thisId = musicCursor.getLong(idColumn);
+//                String thisAlbumArtPath = musicCursor.getString(albumArtColumn);
+//                Log.v("wtf","art: " + thisAlbumArtPath);
                 String thisTitle = musicCursor.getString(titleColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
                 String thisDuration = musicCursor.getString(durationColumn);
-                songList.add(new Song(thisId, thisTitle, thisArtist,thisDuration));
+                int seconds = (Integer.parseInt(thisDuration) / 1000) % 60;
+                int minutes = (Integer.parseInt(thisDuration) / (1000*60)) % 60;
+                if (seconds <= 9) {
+                    songList.add(new Song(thisId, thisTitle, thisArtist,minutes + ":0" + seconds));
+                }
+                else
+                    songList.add(new Song(thisId, thisTitle, thisArtist,minutes + ":" + seconds));
             }
             while (musicCursor.moveToNext());
             musicCursor.close();
@@ -184,17 +201,14 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void setSongCards(ArrayList<Song> songList) {
-        mRecyclerView = (RecyclerView) findViewById(R.id.song_list);
-        if (mRecyclerView != null) mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new SongsAdapter(songList,this);
-        mRecyclerView.setAdapter(mAdapter);
-    }
-
-    public void songPicked(View view){
-        musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
-        musicSrv.playSong();
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.song_list);
+        if (mRecyclerView != null) {
+            mRecyclerView.setHasFixedSize(true);
+            mLayoutManager = new LinearLayoutManager(this);
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mAdapter = new SongsAdapter(songList,this);
+            mRecyclerView.setAdapter(mAdapter);
+        }
     }
 
     private void setController(){

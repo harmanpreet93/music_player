@@ -8,6 +8,7 @@ public class Song {
     private String title;
     private String artist;
     private String duration;
+    private String albumArtPath;
 
     public Song (long songID, String songTitle, String songArtist,String songDuration) {
         this.id = songID;
@@ -32,5 +33,8 @@ public class Song {
         return this.duration;
     }
 
+    public String getAlbumArtPath() {
+        return this.albumArtPath;
+    }
 
 }

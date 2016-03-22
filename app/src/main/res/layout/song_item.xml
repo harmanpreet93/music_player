@@ -17,12 +17,29 @@
         android:layout_width="match_parent"
         android:orientation="horizontal">
 
-        <ImageView
-            android:background="@color/colorAccent"
-            android:contentDescription="album art"
-            android:id="@+id/album_art"
-            android:layout_height="72dp"
-            android:layout_width="72dp" />
+        <!--<ImageView-->
+            <!--android:background="@color/colorAccent"-->
+            <!--android:contentDescription="album art"-->
+            <!--android:id="@+id/album_art"-->
+            <!--android:layout_height="72dp"-->
+            <!--android:layout_width="72dp" />-->
+
+        <LinearLayout
+            android:layout_width="72dp"
+            android:layout_height="72dp">
+
+            <TextView
+                android:id="@+id/song_initial"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:text="L"
+                android:textSize="56sp"
+                android:textColor="#ffffff"
+                android:background="@color/colorPrimary"/>
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_height="wrap_content"
