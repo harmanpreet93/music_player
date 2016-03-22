@@ -7,7 +7,10 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     card_view:cardElevation="4dp"
-    android:layout_margin="6dp">
+    android:layout_marginTop="3dp"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
+    android:layout_marginBottom="3dp">
 
     <LinearLayout
         android:layout_height="wrap_content"
@@ -15,7 +18,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:background="@color/colorPrimary"
+            android:background="@color/colorAccent"
             android:contentDescription="album art"
             android:id="@+id/album_art"
             android:layout_height="72dp"

@@ -24,11 +24,13 @@ public class SongsAdapter extends RecyclerView
             implements View.OnClickListener {
         TextView songTitle;
         TextView songArtist;
+        TextView songDuration;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
             songTitle = (TextView) itemView.findViewById(R.id.song_title);
             songArtist = (TextView) itemView.findViewById(R.id.song_artist);
+            songDuration = (TextView) itemView.findViewById(R.id.song_duration);
 //            Log.i(TAG, "Adding Listener");
             itemView.setOnClickListener(this);
         }
@@ -63,6 +65,7 @@ public class SongsAdapter extends RecyclerView
 //        Log.v("wtf", "setting category style in adapter");
         holder.songTitle.setText(mDataset.get(position).getTitle());
         holder.songArtist.setText(mDataset.get(position).getArtist());
+        holder.songDuration.setText(mDataset.get(position).getDuration());
 //        loadImage(mDataset.get(position).getStyleImageUrl(),holder);
 
     }

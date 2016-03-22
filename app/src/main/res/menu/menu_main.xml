@@ -4,9 +4,17 @@
     tools:context="harman.musicplayer.MainActivity">
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_shuffle"
         android:orderInCategory="100"
         android:title="@string/action_shuffle"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_shuffle_white_24dp"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_end"
+        android:orderInCategory="100"
+        android:title="@string/action_shuffle"
+        android:icon="@drawable/ic_close_white_24dp"
+        app:showAsAction="always" />
 
 </menu>
